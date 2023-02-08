@@ -17,8 +17,9 @@ phases:
       - mvn package
 
 artifacts:
-  files: #이동시키고 싶은 파일들을 명시
+  files: # 이동시키고 싶은 파일들을 명시
     - target/springbootApp.jar
     - scripts/start.sh
     - scripts/stop.sh
+    - appspec.yaml
   discard-paths: yes # 디렉토리를 무시하고 하나의 디렉토리에 위 파일을 이동
