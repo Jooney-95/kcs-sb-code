@@ -4,8 +4,8 @@ os: linux
 files:
   - source: /test.jsp
     destination: /home/ec2-user/tomcat/webapps/ROOT/
-    #  - source: /springbootApp.jar
-    #    destination: /home/ec2-user/
+#  - source: /springbootApp.jar
+#    destination: /home/ec2-user/
 
 file_exists_behavior: OVERWRITE
 

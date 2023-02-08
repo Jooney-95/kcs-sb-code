@@ -17,7 +17,7 @@ phases:
       - mvn package
 artifacts:
   files: # 이동시키고 싶은 파일들을 명시
-    - test.jsp
+    - /test.jsp
     - scripts/exam-start.sh
     - scripts/exam-stop.sh
   discard-paths: yes # 디렉토리를 무시하고 하나의 디렉토리에 위 파일을 이동
