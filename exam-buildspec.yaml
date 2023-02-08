@@ -17,7 +17,7 @@ phases:
       - mvn package
 artifacts:
   files: # 이동시키고 싶은 파일들을 명시
-    - /test.jsp
+    - test.jsp
     - scripts/exam-start.sh
     - scripts/exam-stop.sh
     - appspec.yml
