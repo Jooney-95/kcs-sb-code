@@ -1,0 +1,22 @@
+version: 0.2
+
+phase:
+  install:
+    runtime-version:
+      java: corretto8
+pre_build:
+  commands:
+    echo Pre-build completed
+build:
+  echo Build started
+  mvn test
+post_build:
+  echo Build completed
+  mvn package
+
+artifacts:
+  files: #이동시킬 파일을 명시
+    target/springbootApp.jar
+    scripts/start.sh
+    scripts/stop.sh
+  discard-paths: yes # 위에서 명시한 파일들은 각각의 디렉토리가 아닌  하나의 디렉토리로 담겨진다.
