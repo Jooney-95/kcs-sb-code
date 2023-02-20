@@ -8,7 +8,7 @@ pipeline {
     gitName = 'lango'
     gitEmail = 'xmun777@naver.com'
     githubCredential = 'git_cre'
-    dockerHubRegistry = 'oolralra/sbimage'
+    dockerHubRegistry = 'langoustine/sbimage:1.0'
     dockerHubRegistryCredential = 'docker_cre'
   }
   stages {
