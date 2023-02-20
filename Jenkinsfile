@@ -39,23 +39,23 @@ pipeline {
         }
       }
     }
-    // stage('Docker Image Build') {
-    //   steps {
-    //       sh "docker build -t ${dockerHubRegistry}:${currentBuild.number} ."
-    //       sh "docker build -t ${dockerHubRegistry}:latest ."
-    //       }
-    //   post {
-    //     failure {
-    //       echo 'Docker image build failure'
-    //     }
-    //     success {
-    //       echo 'Docker image build success'  
-    //     }
-    //   }
-    // }
+    stage('Docker Image Build') {
+      steps {
+          sh "docker build -t ${dockerHubRegistry}:${currentBuild.number} ."
+          sh "docker build -t ${dockerHubRegistry}:latest ."
+          }
+      post {
+        failure {
+          echo 'Docker image build failure'
+        }
+        success {
+          echo 'Docker image build success'  
+        }
+      }
+    }
     stage('Docker Image Push') {
       steps {
-        // 도커 허브의 크리덴셜
+        // Docker Hub Credentials
         withDockerRegistry(credentialsId: dockerHubRegistryCredential, url: '') {
           // withDockerRegistry : docker pipeline 플러그인 설치시 사용가능.
           // dockerHubRegistryCredential : environment에서 선언한 docker_cre
