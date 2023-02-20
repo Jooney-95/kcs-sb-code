@@ -4,11 +4,24 @@ pipeline {
   tools {
     maven 'my_maven'
   }
+  environment {
+    gitName = 'lango'
+    gitEmail = 'xmun777@naver.com'
+    githubCredential = 'git_cre'
+  }
   stages {
-    stage('Example') {
+    stage('Checkout Github') {
       steps {
-        echo 'Hello World'
+        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: githubCredential, 'https://github.com/Jooney-95/kcs-sb-code.git']]])
+      }
+      post {
+        failure {
+          echo 'Repository clone failure'
         }
+        success {
+          echo 'Repository clone success'
+        }
+      }
     }
   }
 }
