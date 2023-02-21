@@ -97,7 +97,7 @@ pipeline {
           sh "git commit -m 'fix:${dockerHubRegistry} ${currentBuild.number} image versioning'"
           sh "git branch -M main"
           sh "git remote remove origin"
-          sh "git remote add origin git@github.com:https://github.com/Jooney-95/kcs-sb-code.git"
+          sh "git remote add origin git@github.com:Jooney-95/kcs-sb-code.git"
           sh "git push -u origin main"
           }
       post {
