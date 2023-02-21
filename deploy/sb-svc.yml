@@ -9,5 +9,5 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 8085 # Spring 애플리케이션의 포트가 8085이다.
+      targetPort: 80
   type: LoadBalancer
