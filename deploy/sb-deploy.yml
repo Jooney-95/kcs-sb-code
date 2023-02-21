@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: spring
-          image: langoustine/sbimage:latest
+          image: langoustine/sbimage:5
