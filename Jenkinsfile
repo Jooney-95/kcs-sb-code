@@ -11,11 +11,14 @@ pipeline {
     githubCredential = 'git_cre'
     dockerHubRegistry = 'langoustine/sbimage'
     dockerHubRegistryCredential = 'docker_cre'
+    gitWebaddress = 'https://github.com/Jooney-95/kcs-sb-code.git'
+    gitSshaddress = 'git@github.com:Jooney-95/kcs-sb-code.git'
+
   }
   stages {
     stage('Checkout Github') {
       steps {
-          checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: githubCredential, url: 'https://github.com/Jooney-95/kcs-sb-code.git']]])
+          checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: githubCredential, url: gitWebaddress]]])
           }
       post {
         failure {
@@ -81,25 +84,24 @@ pipeline {
         }
       }
     }
-    stage('Docker Container Deploy') {
+    stage('k8s manifest file update') {
       steps {
-          // sh "docker rm -f spring"
-          // sh "docker run -dp 7979:8085 --name spring ${dockerHubRegistry}:${currentBuild.number}"
-          
-          git credentialsId: githubCredential,
-            url: 'https://github.com/Jooney-95/kcs-sb-code.git',
-            branch: 'main'  
-          // 이미지 태그 변경 후 메인 브랜치에 푸시
-          sh "git config --global user.email ${gitEmail}"
-          sh "git config --global user.name ${gitName}"
-          sh "sed -i 's/sbimage:.*/sbimage:${currentBuild.number}/g' deploy/sb-deploy.yml"
-          sh "git add ."
-          sh "git commit -m 'fix:${dockerHubRegistry} ${currentBuild.number} image versioning'"
-          sh "git branch -M main"
-          sh "git remote remove origin"
-          sh "git remote add origin git@github.com:Jooney-95/kcs-sb-code.git"
-          sh "git push -u origin main"
-          }
+        git credentialsId: githubCredential,
+            url: gitWebaddress,
+            branch: 'main'
+        
+        // 이미지 태그 변경 후 메인 브랜치에 푸시
+        sh "git config --global user.email ${gitEmail}"
+        sh "git config --global user.name ${gitName}"
+        sh "sed -i 's@${dockerHubRegistry}:.*@${dockerHubRegistry}:${currentBuild.number}@g' deploy/sb-deploy.yml"
+        sh "git add ."
+        sh "git commit -m 'fix:${dockerHubRegistry} ${currentBuild.number} image versioning'"
+        sh "git branch -M main"
+        sh "git remote remove origin"
+        sh "git remote add origin ${gitSshaddress}"
+        sh "git push -u origin main"
+
+      }
       post {
         failure {
           echo 'Container Deploy failure'
@@ -109,5 +111,6 @@ pipeline {
         }
       }
     }
+      
   }
 }
